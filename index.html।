@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BD AI App Builder</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px;background:#141c32;border-bottom:1px solid #293653}
+.logo{font-size:23px;font-weight:bold;color:#8b9cff}
+.logo span{color:#fff}
+main{max-width:850px;margin:auto;padding:20px}
+.card{background:#151f36;border:1px solid #2d3a5a;border-radius:16px;padding:20px;margin:18px 0}
+h2{font-size:20px;margin-top:0}
+p{color:#b9c4df;line-height:1.6}
+textarea{width:100%;height:125px;background:#0b1224;color:white;border:1px solid #455578;border-radius:10px;padding:14px;font-size:16px;resize:vertical}
+button{border:0;border-radius:10px;padding:13px 17px;font-size:15px;font-weight:bold;cursor:pointer;margin:5px 3px}
+.primary{background:#685cff;color:white;width:100%;margin:12px 0}
+.secondary{background:#263657;color:white}
+.green{background:#087e65;color:white}
+input,select{width:100%;padding:12px;border-radius:9px;border:1px solid #455578;background:#0b1224;color:white;margin:8px 0}
+.preview{background:#fff;color:#172033;min-height:220px;border-radius:12px;padding:20px;text-align:center}
+.preview h2{color:#172033}
+.status{color:#aab7d8;font-size:13px}
+footer{text-align:center;color:#7785a8;padding:25px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">BD AI <span>APP BUILDER</span> 🚀</div>
+ <p>তোমার আইডিয়া থেকেই তৈরি হবে নতুন অ্যাপ</p>
+</header>
+
+<main>
+ <section class="card">
+  <h2>✨ AI App Generator</h2>
+  <p>তুমি কী ধরনের Android App বানাতে চাও, নিচে লিখো।</p>
+  <input id="appname" placeholder="অ্যাপের নাম লিখো">
+  <select id="type">
+   <option>Islamic App</option>
+   <option>Shopping App</option>
+   <option>Education App</option>
+   <option>News App</option>
+   <option>Video Editor App</option>
+   <option>Business App</option>
+   <option>Other App</option>
+  </select>
+  <textarea id="prompt" placeholder="যেমন: একটি ইসলামিক অ্যাপ বানাও, যেখানে Daily Hadith, Quran এবং নামাজের সময় থাকবে।"></textarea>
+  <button class="primary" onclick="generate()">✨ Generate My App</button>
+  <p class="status" id="status">AI App Builder প্রস্তুত।</p>
+ </section>
+
+ <section class="card">
+  <h2>📱 Live App Preview</h2>
+  <div class="preview" id="preview">
+   <h2>Welcome to BD AI Builder</h2>
+   <p>তোমার অ্যাপের Preview এখানে দেখা যাবে।</p>
+  </div>
+  <button class="secondary" onclick="downloadHTML()">⬇ Download HTML</button>
+ </section>
+
+ <section class="card">
+  <h2>📦 Android APK Builder</h2>
+  <p>তোমার তৈরি প্রজেক্ট Android APK-তে রূপান্তর করার জন্য Cloud Build Server সংযোগ প্রয়োজন।</p>
+  <button class="green" onclick="buildAPK()">Build Android APK</button>
+  <p class="status" id="apkstatus">Build Server এখনো সংযুক্ত হয়নি।</p>
+ </section>
+
+ <section class="card">
+  <h2>🛠️ My App Features</h2>
+  <p>✓ AI Prompt Generator</p>
+  <p>✓ App Name & Category</p>
+  <p>✓ Live Preview</p>
+  <p>✓ HTML Download</p>
+  <p>✓ ভবিষ্যতে Cloud APK Export</p>
+ </section>
+</main>
+
+<footer>BD AI App Builder © 2026 | Made with ❤️</footer>
+
+<script>
+let generatedHTML = "";
+
+function escapeHTML(s){
+ return s.replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;',
+  '"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+function generate(){
+ const name=document.getElementById('appname').value.trim() || 'My New App';
+ const type=document.getElementById('type').value;
+ const prompt=document.getElementById('prompt').value.trim();
+
+ if(!prompt){
+  alert('আগে তোমার অ্যাপের আইডিয়া লিখো।');
+  return;
+ }
+
+ const safeName=escapeHTML(name);
+ const safeType=escapeHTML(type);
+ const safePrompt=escapeHTML(prompt);
+
+ generatedHTML=`<!DOCTYPE html>
+<html lang="bn">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${safeName}</title>
+<style>
+body{font-family:Arial;background:#f0f3ff;padding:25px;text-align:center}
+main{background:white;padding:25px;border-radius:18px;max-width:500px;margin:30px auto;box-shadow:0 4px 20px #ccd}
+h1{color:#5148c8}
+</style></head>
+<body><main>
+<h1>${safeName}</h1>
+<p>${safeType}</p>
+<h3>Welcome!</h3>
+<p>${safePrompt}</p>
+<button onclick="alert('Welcome to ${safeName}!')">Get Started</button>
+</main></body></html>`;
+
+ document.getElementById('preview').innerHTML=
+ `<h2>${safeName}</h2>
+ <p><b>Category:</b> ${safeType}</p>
+ <p>${safePrompt}</p>
+ <button class="secondary" onclick="alert('Welcome to ${safeName.replace(/'/g,"\\'")}!')">Get Started</button>`;
+
+ document.getElementById('status').textContent=
+ '✓ তোমার App Preview তৈরি হয়েছে!';
+
+ document.getElementById('apkstatus').textContent=
+ 'Preview তৈরি হয়েছে। APK Build-এর জন্য Server সংযোগ প্রয়োজন।';
+}
+
+function downloadHTML(){
+ if(!generatedHTML){
+  alert('আগে Generate My App চাপো।');
+  return;
+ }
+ const blob=new Blob([generatedHTML],{type:'text/html'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;
+ a.download='my-app.html';
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function buildAPK(){
+ document.getElementById('apkstatus').textContent=
+ 'Cloud APK Build Server এখনো সেটআপ করা হয়নি। পরবর্তী ধাপে এটি সংযুক্ত করব।';
+}
+</script>
+</body>
+</html>
